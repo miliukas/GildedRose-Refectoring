@@ -85,5 +85,58 @@ namespace csharp
                 }
             }
         }
+
+        public void UpdateQuality2()
+        {
+            for (int i = 0; i < Items.Count; i++)
+            {
+
+                string caseSwitch = GetItemCategorie(Items[i].Name);
+
+                switch (caseSwitch)
+                {
+                    case "Sulfuras":
+                        Items[i].SellIn -= 1;
+                        break;
+                    case "test":
+                        break;
+                    default:
+                        int degrade = valueOfQualityDegradeForCasualItems(Items[i].SellIn);
+                        if (Items[i].Quality - degrade < 0)
+                        {
+                            Items[i].Quality = 0;
+                            Items[i].SellIn--;
+                        }
+                        else
+                        {
+                            Items[i].Quality -= degrade;
+                            Items[i].SellIn--;
+                        }
+                        break;
+                }
+
+            }
+        }
+
+        private string GetItemCategorie(string name)
+        {
+            if (name.Contains("Sulfuras"))
+                return "Sulfuras";
+            else if (name.Contains("Aged Brie"))
+                return "Aged Brie";
+            else if (name.Contains("Backstage passes"))
+                return "Backstage passes";
+            else
+                return "Default";
+        }
+
+        private int valueOfQualityDegradeForCasualItems(int sellin)
+        {
+            if (sellin > 0)
+                return 1;
+            else 
+                return 2;
+        }
+
     }
 }

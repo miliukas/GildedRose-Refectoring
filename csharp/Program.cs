@@ -49,8 +49,12 @@ namespace csharp
                     System.Console.WriteLine(Items[j]);
                 }
                 Console.WriteLine("");
-                app.UpdateQuality();
+                //app.UpdateQuality();
+                app.UpdateQuality2();
             }
         }
+
+
+
     }
 }
