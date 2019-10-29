@@ -92,16 +92,31 @@ namespace csharp
             {
 
                 string caseSwitch = GetItemCategorie(Items[i].Name);
-
+                int degrade;
                 switch (caseSwitch)
                 {
                     case "Sulfuras":
                         Items[i].SellIn -= 1;
                         break;
-                    case "test":
+                    case "Backstage passes":
+                        break;
+                    case "Aged Brie":
+                        break;
+                    case "Conjured":
+                        degrade = valueOfQualityDegradeForCasualItems(Items[i].SellIn);
+                        if (Items[i].Quality - degrade*2 < 0)
+                        {
+                            Items[i].Quality = 0;
+                            Items[i].SellIn--;
+                        }
+                        else
+                        {
+                            Items[i].Quality -= degrade*2;
+                            Items[i].SellIn--;
+                        }
                         break;
                     default:
-                        int degrade = valueOfQualityDegradeForCasualItems(Items[i].SellIn);
+                        degrade = valueOfQualityDegradeForCasualItems(Items[i].SellIn);
                         if (Items[i].Quality - degrade < 0)
                         {
                             Items[i].Quality = 0;
@@ -126,6 +141,8 @@ namespace csharp
                 return "Aged Brie";
             else if (name.Contains("Backstage passes"))
                 return "Backstage passes";
+            else if (name.Contains("Conjured"))
+                return "Conjured";
             else
                 return "Default";
         }
