@@ -9,6 +9,13 @@
         public override string ToString()
         {
             return this.Name + ", " + this.SellIn + ", " + this.Quality;
-        }  
+        }
+
+        public  bool Equals(Item obj)
+        {
+            if (this.Name.Equals(obj.Name) && this.Quality == obj.Quality && this.SellIn == this.SellIn)
+                return true;
+            return false;
+        }
     }
 }
