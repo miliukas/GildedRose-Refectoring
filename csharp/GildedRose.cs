@@ -90,17 +90,32 @@ namespace csharp
         {
             for (int i = 0; i < Items.Count; i++)
             {
-
-                string caseSwitch = GetItemCategorie(Items[i].Name);
+                string caseSwitch = GetItemCategory(Items[i].Name);
                 int degrade;
+                int increase;
                 switch (caseSwitch)
                 {
                     case "Sulfuras":
                         Items[i].SellIn -= 1;
                         break;
                     case "Backstage passes":
+                        if (Items[i].SellIn - 1 < 0) {
+                            Items[i].Quality = 0;
+                            Items[i].SellIn--;
+                            break;
+                        }
+                        increase = valueOfQualityIncreaseForSpecialItems(Items[i].SellIn);
+                        if (Items[i].Quality + increase < 50)
+                        {
+                            Items[i].Quality += increase;
+                            Items[i].SellIn--;
+                        }
+                        else { Items[i].Quality = 50; Items[i].SellIn--;}
                         break;
                     case "Aged Brie":
+                        if (Items[i].Quality < 50)
+                            Items[i].Quality++;
+                        Items[i].SellIn--;
                         break;
                     case "Conjured":
                         degrade = valueOfQualityDegradeForCasualItems(Items[i].SellIn);
@@ -133,7 +148,7 @@ namespace csharp
             }
         }
 
-        private string GetItemCategorie(string name)
+        private string GetItemCategory(string name)
         {
             if (name.Contains("Sulfuras"))
                 return "Sulfuras";
@@ -155,5 +170,14 @@ namespace csharp
                 return 2;
         }
 
+        private int valueOfQualityIncreaseForSpecialItems(int sellin)
+        {
+            if (sellin > 5 && sellin < 11)
+                return 2;
+            else if (sellin < 6 && sellin > 0)
+                return 3;
+            else
+                return 1;
+        }
     }
 }
